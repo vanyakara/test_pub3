@@ -49,11 +49,11 @@ jobs:
       - name: Run first container on remote server
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} \
-            "docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/image1:latest && \
-             docker run -d --name container1 ${{ secrets.DOCKER_HUB_USERNAME }}/image1:latest"
+            "docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/backend:latest && \
+             docker run -d --name container1 ${{ secrets.DOCKER_HUB_USERNAME }}/backend:latest"
 
       - name: Run second container on remote server
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} \
-            "docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/image2:latest && \
-             docker run -d --name container2 ${{ secrets.DOCKER_HUB_USERNAME }}/image2:latest"
+            "docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/frontend:latest && \
+             docker run -d --name container2 ${{ secrets.DOCKER_HUB_USERNAME }}/frontend:latest"
