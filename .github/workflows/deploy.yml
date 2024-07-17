@@ -58,6 +58,11 @@ jobs:
             "docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/frontend:latest && \
              docker run -d --name container2 ${{ secrets.DOCKER_HUB_USERNAME }}/frontend:latest"
 
+      - name: Add SSH key
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
       - name: Install Docker Compose on remote server
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} \
@@ -66,9 +71,9 @@ jobs:
 
       - name: Copy docker-compose.yml to remote server
         run: |
-          scp -o StrictHostKeyChecking=no docker-compose.yml ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USERNAME }}/docker-compose.yml
+          scp -o StrictHostKeyChecking=no docker-compose.yml ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USERNAME }}/project/docker-frontend-backend-db/docker-compose.yml
 
       - name: Start Docker Compose services on remote server
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} \
-            "docker-compose -f /home/${{ secrets.SSH_USERNAME }}/docker-compose.yml up -d"
+            "docker-compose -f /home/${{ secrets.SSH_USERNAME }}/project/docker-frontend-backend-db/docker-compose.yml up -d"
